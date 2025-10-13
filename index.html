@@ -185,7 +185,7 @@
 
       <!-- Right Column: Contact Form -->
       <div class="bg-gray-800/70 p-8 rounded-3xl shadow-lg backdrop-blur-sm border border-gray-700" data-aos="fade-left">
-        <form name="contact" method="POST" data-netlify="true" class="space-y-6">
+        <form name="contact" method="POST" data-netlify="true" class="space-y-6" id="contact-form">
           <input type="hidden" name="form-name" value="contact">
           <input type="text" placeholder="Your Name" name="name" required class="w-full p-4 rounded-2xl bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 transition duration-300">
           <input type="email" placeholder="Your Email" name="email" required class="w-full p-4 rounded-2xl bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 transition duration-300">
@@ -201,6 +201,31 @@
 
   <script>
     AOS.init({ duration: 1000, easing: 'ease-in-out', once: true });
+
+    
+  const form = document.getElementById('contact-form');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const formData = new FormData(form);
+
+    // Send form data via fetch to Netlify
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString()
+    })
+    .then(() => {
+      alert('Thank you! Your message has been submitted.');
+      form.reset(); // Clear the form fields
+    })
+    .catch((error) => {
+      alert('Oops! Something went wrong.');
+      console.error(error);
+    });
+  });
+
   </script>
 
 </body>
